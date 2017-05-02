@@ -6,7 +6,7 @@
 
 double randn(double mu, double sigma)
 {
-	const double epsilon = -1e30;
+	const double epsilon = -1e10;
 	const double two_pi = 2.0*3.14159265358979323846;
 
 	static double z0 = 0, z1 = 0;
@@ -24,8 +24,15 @@ double randn(double mu, double sigma)
 	}
 	while ( u1 <= epsilon );
 
-	z0 = sqrt(-2.0 * log(u1)) * cos(two_pi * u2);
-	z1 = sqrt(-2.0 * log(u1)) * sin(two_pi * u2);
+	if (u1 == 0) {
+		z0 = 0;
+		z1 = 0;
+	}
+	else {
+		z0 = sqrt(-2.0 * log(u1)) * cos(two_pi * u2);
+		z1 = sqrt(-2.0 * log(u1)) * sin(two_pi * u2);
+	}
+
 	return z0 * sigma + mu;
 }
 
